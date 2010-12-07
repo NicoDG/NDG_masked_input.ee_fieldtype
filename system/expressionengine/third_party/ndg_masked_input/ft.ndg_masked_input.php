@@ -32,28 +32,25 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	
 	function display_field($data)
 	{
-
 		$firstmask = $this->settings["mask"][key($this->settings["mask"])];
 
 		$theme_folder_url = $this->EE->config->item('theme_folder_url');
 
-		$this->EE->cp->load_package_js('jquery.inputmask');
+		$this->EE->cp->add_to_head('<script type="text/javascript" src="'.$theme_folder_url.'third_party/ndg_masked_input/jquery.inputmask.js"></script>');
 		
-		$ret = '<script type="text/javascript">
-
-			$(document).ready( function() {
+		$this->EE->javascript->output('$("#'.$this->field_name.'").inputmask({"mask" : "'.$firstmask.'", "autounmask" : false, "greedy" : false});');
 		
+		if (REQ == 'CP')
+		{
+			$this->EE->javascript->output('
 				console.log($("#hold_field_'.$this->field_id.' > .instruction_text").length);
 				if($("#hold_field_'.$this->field_id.' > .instruction_text").length > 0){
 					$("#hold_field_'.$this->field_id.' .instruction_text > p").append(" Input format: '.$firstmask.'");
 				}else{
 					$("#sub_hold_field_'.$this->field_id.'").prepend(\'<div class="instruction_text"><p><strong>Instructions</strong> Input format: '.$firstmask.'</p></div>\');
 				}
-				$("#field_id_'.$this->field_id.'").inputmask({"mask" : "'.$firstmask.'", "autounmask" : false, "greedy" : false});
-
-			});
-			</script>';
-
+			');
+		}
 
 		$dropdown = "";
 		if(count($this->settings["mask"]) > 1){
@@ -68,7 +65,7 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			'id'		=> $this->field_name,
 			'value'		=> $data,
 			'dir'		=> $this->settings['field_text_direction']
-		)).$ret;
+		));
 	}
 	
 	
