@@ -1,4 +1,4 @@
-Masked Input EE2 Fieldtype:
+Masked Input EE2 Fieldtype: 
 
 Allows you to define a mask format for the field input.  This makes sure the correct format has been entered.
 An inline vaildation is added where the user is notified when the correct format has not been entered.
