@@ -1,0 +1,25 @@
+Masked Input EE2 Fieldtype: 
+
+Allows you to define a mask format for the field input.  This makes sure the correct format has been entered.
+An inline vaildation is added where the user is notified when the correct format has not been entered.
+A publish validation is added for fields that are marked as required 
+
+
+INSTALLATION
+- create folder ndg_masked_input in system/expressionengine/third_party/
+- copy files into system/expressionengine/third_party/ndg_masked_input
+
+
+EXAMPLES:
+
+(999) 999-9999	- phone example
+99/99/99		- custom date
+aa-9999			- product number ex. PR-2342 
+
+The following mask definitions are predefined:
+
+a     			- Represents an alpha character (A-Z,a-z)
+9     			- Represents a numeric character (0-9)
+*     			- Represents an alphanumeric character (A-Z,a-z,0-9)
+d/m/y 			- day/month/year in 99/99/9999 format ex 06/12/2010
+  s
