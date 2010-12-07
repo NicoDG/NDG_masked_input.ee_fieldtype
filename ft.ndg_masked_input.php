@@ -29,44 +29,6 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		parent::EE_Fieldtype();
 	}
 	
-	// --------------------------------------------------------------------
-	
-	function validate($data)
-	{
-	
-		if(strlen(str_replace("_","",$data)) != strlen($this->settings["mask"][key($this->settings["mask"])]) && $this->settings["field_required"] == "y"){
-			return $this->EE->lang->line("Please fill in a valid value");
-		}
-		
-		if ($data == '')
-		{
-			return TRUE;
-		}
-		
-		if ( ! isset($this->field_content_types))
-		{
-			$this->field_content_types = $this->EE->field_model->get_field_content_types();
-		}
-
-		if ( ! isset($this->settings['field_content_type']))
-		{
-			return TRUE;
-		}
-
-		$content_type = $this->settings['field_content_type'];
-		
-		if (in_array($content_type, $this->field_content_types['text']) && $content_type != 'any')
-		{
-			if ( ! $this->EE->form_validation->$content_type($data))
-			{
-				return $this->EE->lang->line($content_type);
-			}
-		}
-		
-		return TRUE;
-	}
-	
-	// --------------------------------------------------------------------
 	
 	function display_field($data)
 	{
@@ -108,6 +70,20 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			'dir'		=> $this->settings['field_text_direction']
 		)).$ret;
 	}
+	
+	
+	// --------------------------------------------------------------------
+	
+	function validate($data)
+	{
+	
+		if(strlen(str_replace("_","",$data)) != strlen($this->settings["mask"][key($this->settings["mask"])]) && $this->settings["field_required"] == "y"){
+			return $this->EE->lang->line("Please fill in a valid value");
+		}
+		
+		return TRUE;
+	}
+	
 	
 	// --------------------------------------------------------------------
 	
