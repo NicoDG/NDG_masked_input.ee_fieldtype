@@ -30,6 +30,8 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	}
 	
 	
+	// --------------------------------------------------------------------
+	
 	function display_field($data)
 	{
 		$firstmask = $this->settings["mask"][key($this->settings["mask"])];
@@ -43,7 +45,6 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		if (REQ == 'CP')
 		{
 			$this->EE->javascript->output('
-				console.log($("#hold_field_'.$this->field_id.' > .instruction_text").length);
 				if($("#hold_field_'.$this->field_id.' > .instruction_text").length > 0){
 					$("#hold_field_'.$this->field_id.' .instruction_text > p").append(" Input format: '.$firstmask.'");
 				}else{
@@ -68,6 +69,28 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		));
 	}
 	
+	// --------------------------------------------------------------------
+		
+	function display_cell( $data )
+	{
+	
+		$firstmask = $this->settings["mask"][key($this->settings["mask"])];
+
+		$theme_folder_url = $this->EE->config->item('theme_folder_url');
+
+		$this->EE->cp->add_to_head('<script type="text/javascript" src="'.$theme_folder_url.'third_party/ndg_masked_input/jquery.inputmask.js"></script>');
+		
+		$this->EE->javascript->output('$("#'.$this->field_id.'").inputmask({"mask" : "'.$firstmask.'", "autounmask" : false, "greedy" : false});');
+		
+		
+	  return form_input(array(
+			'name'		=> $this->cell_name,
+			'id'		=> $this->field_id,
+			'value'		=> $data,
+			'dir'		=> $this->settings['field_text_direction']
+		));
+	}
+
 	
 	// --------------------------------------------------------------------
 	
@@ -81,6 +104,16 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		return TRUE;
 	}
 	
+	// --------------------------------------------------------------------
+		
+	function save_cell( $data )
+	{
+
+	  if ($data == '&nbsp;') $data = '';
+	
+	  return $data;
+	}
+
 	
 	// --------------------------------------------------------------------
 	
@@ -126,6 +159,22 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		$this->text_direction_row($data, $prefix);
 	}
 
+	// --------------------------------------------------------------------
+	
+	function display_cell_settings( $data )
+	{
+	  if (! isset($data['mask'])){ 
+	  	$data['mask'] = '';
+	  }else{
+	  	$data['mask'] = $this->options_setting($data['mask']);
+	  }
+	  return array(
+	    array(lang('mask'), form_input('mask', $data['mask'], 'class="matrix-textarea"'))
+	  );
+	}
+
+	// --------------------------------------------------------------------
+	
 	function options_setting($options=array(), $indent = '')
 	{
 	
@@ -161,6 +210,21 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		);
 	}
 	
+	// --------------------------------------------------------------------
+		
+	function save_cell_settings( $data )
+	{
+	
+	  if (! isset($data['mask'])){ 
+	  	$data['mask'] = '';
+	  }else{
+	  	$data['mask'] = $this->save_options_setting($data['mask']);
+	  }
+	
+	  return $data;
+	}
+
+	// --------------------------------------------------------------------
 
 	function save_options_setting($options = '', $total_levels = 1)
 	{
@@ -178,6 +242,8 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		return $this->_structure_options($options, $total_levels);
 	}
 
+	// --------------------------------------------------------------------
+	
 	private function _structure_options(&$options, $total_levels, $level = 1, $indent = -1)
 	{
 		$r = array();

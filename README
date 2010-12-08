@@ -1,14 +1,13 @@
 Masked Input EE2 Fieldtype: 
 
 Allows you to define a mask format for the field input.  This makes sure the correct format has been entered.
-An inline vaildation is added where the user is notified when the correct format has not been entered.
+An inline validation is added where the user is notified when the correct format has not been entered.
 A publish validation is added for fields that are marked as required 
 
 
 INSTALLATION
-- create folder ndg_masked_input in system/expressionengine/third_party/
 - copy files into system/expressionengine/third_party/ndg_masked_input
-
+- copy files into themes/third_party/ndg_masked_input
 
 EXAMPLES:
 
