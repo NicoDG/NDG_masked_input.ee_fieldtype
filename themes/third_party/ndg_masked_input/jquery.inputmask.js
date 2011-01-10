@@ -70,7 +70,7 @@ This plugin is based on the masked input plugin written by Josh Bush (digitalbus
         var opts = $.extend({}, $.inputmask.defaults, options);
         var pasteEventName = $.browser.msie ? 'paste.inputmask' : 'input.inputmask';
         var iPhone = (window.orientation != undefined);
-		var originalcolor = this.css("color");
+		var originalcolor = 'rgb(95, 108, 116)'; //this.css("color");
 		
         var _val = $.inputmask.val;
         if (opts.patch_val && $.fn.val.inputmaskpatch != true) {

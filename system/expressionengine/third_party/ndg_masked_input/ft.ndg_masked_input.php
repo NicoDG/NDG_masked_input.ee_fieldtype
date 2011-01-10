@@ -80,14 +80,13 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 
 		$this->EE->cp->add_to_head('<script type="text/javascript" src="'.$theme_folder_url.'third_party/ndg_masked_input/jquery.inputmask.js"></script>');
 		
-		$this->EE->javascript->output('$("#'.$this->field_id.'").inputmask({"mask" : "'.$firstmask.'", "autounmask" : false, "greedy" : false});');
-		
-		
-	  return form_input(array(
+	  	return form_input(array(
 			'name'		=> $this->cell_name,
-			'id'		=> $this->field_id,
+			'id'		=> $this->cell_name,
+			'class'		=> $firstmask,
 			'value'		=> $data,
-			'dir'		=> $this->settings['field_text_direction']
+			'dir'		=> $this->settings['field_text_direction'],
+			'onFocus'	=> '$(this).inputmask({\'mask\' : \''.$firstmask.'\', \'autounmask\' : false, \'greedy\' : false});'
 		));
 	}
 
