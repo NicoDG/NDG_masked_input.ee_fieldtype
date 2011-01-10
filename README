@@ -14,6 +14,8 @@ EXAMPLES:
 (999) 999-9999	- phone example
 99/99/99		- custom date
 aa-9999			- product number ex. PR-2342 
+h:i			- ex: 11:34
+H:i			- ex: 23:34
 
 The following mask definitions are predefined:
 
@@ -21,4 +23,5 @@ a     			- Represents an alpha character (A-Z,a-z)
 9     			- Represents a numeric character (0-9)
 *     			- Represents an alphanumeric character (A-Z,a-z,0-9)
 d/m/y 			- day/month/year in 99/99/9999 format ex 06/12/2010
-  
+h			- 12-hour format of an hour with leading zeros, 01 through 12
+H			- 24-hour format of an hour with leading zeros, 00 through 23

@@ -39,6 +39,21 @@ This plugin is based on the masked input plugin written by Josh Bush (digitalbus
                     "cardinality": 1,
                     "prevalidator": null
                 },
+                'h': { //hour 12-hour format of an hour with leading zeros
+                   "validator": "0[1-9]|1[012]",
+                   "cardinality": 2,
+                   "prevalidator": [{ "validator": "[01]", "cardinality": 1}]
+               	},
+                'H': { //hour 24-hour format of an hour with leading zeros
+                   "validator": "[01][0-9]|[2][0-3]",
+                   "cardinality": 2,
+                   "prevalidator": [{ "validator": "[0-2]", "cardinality": 1}]
+               	},
+				'i': { //minutes
+                   "validator": "0[0-9]|[1-5][0-9]",
+                   "cardinality": 2,
+                   "prevalidator": [{ "validator": "[0-5]", "cardinality": 1}]
+               	},
                 'd': { //day
                     "validator": "0[1-9]|[12][0-9]|3[01]",
                     "cardinality": 2,
