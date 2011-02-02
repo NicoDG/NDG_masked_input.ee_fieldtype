@@ -134,7 +134,8 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 
 	function display_settings($data)
 	{
-		$prefix = 'text';
+
+		$prefix = 'ndg_masked_input';
 		$field_content_text	= ($data['field_content_text'] == '') ? 'any' : $data['field_content_text'];
 		$mask				= isset($data['mask']) ? $this->options_setting($data['mask']) : '';
 	
@@ -153,7 +154,7 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			form_input('mask', $mask)
 		);
 		
-		
+	
 		$this->field_formatting_row($data, $prefix);
 		$this->text_direction_row($data, $prefix);
 	}
@@ -201,14 +202,15 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 
 	function save_settings($data)
 	{		
-		
-		return array(
+		$settings = array(
 			'field_content_text'	=> $this->EE->input->post('field_content_text'),
 			'mask'					=> $this->save_options_setting($this->EE->input->post('mask'))
-			
 		);
+		
+		return $settings;
 	}
 	
+
 	// --------------------------------------------------------------------
 		
 	function save_cell_settings( $data )
@@ -227,6 +229,7 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 
 	function save_options_setting($options = '', $total_levels = 1)
 	{
+
 		// prepare options
 		$options = preg_split('/[\r\n]+/', $options);
 		foreach($options as &$option)
