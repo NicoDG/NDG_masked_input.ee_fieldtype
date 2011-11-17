@@ -8,7 +8,7 @@
  * @version             Release: 1.0
  * @link                http://pixelclub.be
  */
- 
+
 class Ndg_masked_input_ft extends EE_Fieldtype {
 
 	var $info = array(
@@ -28,10 +28,10 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	{
 		parent::EE_Fieldtype();
 	}
-	
-	
+
+
 	// --------------------------------------------------------------------
-	
+
 	function display_field($data)
 	{
 		$firstmask = $this->settings["mask"][key($this->settings["mask"])];
@@ -39,9 +39,9 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		$theme_folder_url = $this->EE->config->item('theme_folder_url');
 
 		$this->EE->cp->add_to_head('<script type="text/javascript" src="'.$theme_folder_url.'third_party/ndg_masked_input/jquery.inputmask.js"></script>');
-		
+
 		$this->EE->javascript->output('$("#'.$this->field_name.'").inputmask({"mask" : "'.$firstmask.'", "autounmask" : false, "greedy" : false});');
-		
+
 		if (REQ == 'CP')
 		{
 			$this->EE->javascript->output('
@@ -59,7 +59,7 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			foreach($this->settings["mask"] as $label => $value){
 				$options[$value] = $label;
 			}
-			$dropdown .= form_dropdown('maskoptions', $options, '');			
+			$dropdown .= form_dropdown('maskoptions', $options, '');
 		}
 		return $dropdown.form_input(array(
 			'name'		=> $this->field_name,
@@ -68,18 +68,18 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			'dir'		=> $this->settings['field_text_direction']
 		));
 	}
-	
+
 	// --------------------------------------------------------------------
-		
+
 	function display_cell( $data )
 	{
-	
+
 		$firstmask = $this->settings["mask"][key($this->settings["mask"])];
 
 		$theme_folder_url = $this->EE->config->item('theme_folder_url');
 
 		$this->EE->cp->add_to_head('<script type="text/javascript" src="'.$theme_folder_url.'third_party/ndg_masked_input/jquery.inputmask.js"></script>');
-		
+
 	  	return form_input(array(
 			'name'		=> $this->cell_name,
 			'id'		=> $this->cell_name,
@@ -90,32 +90,32 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 		));
 	}
 
-	
+
 	// --------------------------------------------------------------------
-	
+
 	function validate($data)
 	{
-	
+
 		if(strlen(str_replace("_","",$data)) != strlen($this->settings["mask"][key($this->settings["mask"])]) && $this->settings["field_required"] == "y"){
 			return $this->EE->lang->line("Please fill in a valid value");
 		}
-		
+
 		return TRUE;
 	}
-	
+
 	// --------------------------------------------------------------------
-		
+
 	function save_cell( $data )
 	{
 
 	  if ($data == '&nbsp;') $data = '';
-	
+
 	  return $data;
 	}
 
-	
+
 	// --------------------------------------------------------------------
-	
+
 	function replace_tag($data, $params = '', $tagdata = '')
 	{
 		return $this->EE->typography->parse_type(
@@ -128,7 +128,7 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			)
 		);
 	}
-	
+
 
 	// --------------------------------------------------------------------
 
@@ -136,10 +136,10 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	{
 
 		$prefix = 'ndg_masked_input';
-		$field_content_text	= ($data['field_content_text'] == '') ? 'any' : $data['field_content_text'];
+		$field_content_text	= (! isset($data['field_content_text']) OR $data['field_content_text'] == '') ? 'any' : $data['field_content_text'];
 		$mask				= isset($data['mask']) ? $this->options_setting($data['mask']) : '';
-	
-		
+
+
 		$this->EE->table->add_row(
 			lang('instructions', 'instructions'),
 			nl2br('a     - Represents an alpha character (A-Z,a-z)
@@ -153,17 +153,17 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 			lang('mask', 'mask'),
 			form_input('mask', $mask)
 		);
-		
-	
+
+
 		$this->field_formatting_row($data, $prefix);
 		$this->text_direction_row($data, $prefix);
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	function display_cell_settings( $data )
 	{
-	  if (! isset($data['mask'])){ 
+	  if (! isset($data['mask'])){
 	  	$data['mask'] = '';
 	  }else{
 	  	$data['mask'] = $this->options_setting($data['mask']);
@@ -174,10 +174,10 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	function options_setting($options=array(), $indent = '')
 	{
-	
+
 		$r = '';
 
 		foreach($options as $name => $label)
@@ -196,32 +196,32 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 
 		return $r;
 	}
-	
+
 
 	// --------------------------------------------------------------------
 
 	function save_settings($data)
-	{		
+	{
 		$settings = array(
 			'field_content_text'	=> $this->EE->input->post('field_content_text'),
 			'mask'					=> $this->save_options_setting($this->EE->input->post('mask'))
 		);
-		
+
 		return $settings;
 	}
-	
+
 
 	// --------------------------------------------------------------------
-		
+
 	function save_cell_settings( $data )
 	{
-	
-	  if (! isset($data['mask'])){ 
+
+	  if (! isset($data['mask'])){
 	  	$data['mask'] = '';
 	  }else{
 	  	$data['mask'] = $this->save_options_setting($data['mask']);
 	  }
-	
+
 	  return $data;
 	}
 
@@ -245,7 +245,7 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	private function _structure_options(&$options, $total_levels, $level = 1, $indent = -1)
 	{
 		$r = array();
@@ -268,8 +268,8 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 
 		return $r;
 	}
-	
-	
+
+
 }
 
 // END Ndg_masked_input_Ft class
