@@ -24,9 +24,9 @@ class Ndg_masked_input_ft extends EE_Fieldtype {
 	 *
 	 * @access	public
 	 */
-	function Ndg_masked_input_ft()
+	function __construct()
 	{
-		parent::EE_Fieldtype();
+		if (version_compare(APP_VER, '2.1.4', '>')) { parent::__construct(); } else { parent::EE_Fieldtype(); }
 	}
 	
 	
